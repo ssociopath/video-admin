@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { login } from '@/api/user.js'
+import { adminLogin } from '@/api/user.js'
 
 export default {
   name: 'LoginIndex',
@@ -49,10 +49,14 @@ export default {
   methods: {
     onLogin () {
       this.loginLoding = true
-      login(this.user).then(res => {
+      adminLogin(this.user).then(res => {
         console.log(res)
         if (res.data.code === '00000') {
           this.$message.success(res.data.message)
+          window.sessionStorage.setItem('token', res.data.data)
+          this.$router.push({
+            name: 'adminHome'
+          })
         } else {
           this.$message.error(res.data.message)
         }
