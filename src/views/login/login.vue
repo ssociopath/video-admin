@@ -54,9 +54,7 @@ export default {
         if (res.data.code === '00000') {
           this.$message.success(res.data.message)
           window.sessionStorage.setItem('token', res.data.data)
-          this.$router.push({
-            name: 'adminHome'
-          })
+          this.$router.push('/adminHome')
         } else {
           this.$message.error(res.data.message)
         }

@@ -5,6 +5,7 @@ import { adminLoginInfo } from '@/api/user'
 import Login from '@/views/login/login.vue'
 import Home from '@/views/home/index.vue'
 import AdminHome from '@/views/admin/home/index.vue'
+import AdminLayout from '@/views/admin/layout/index.vue'
 
 Vue.use(VueRouter)
 
@@ -15,14 +16,20 @@ const routes = [
     component: Login
   },
   {
+    path: '/adminHome',
+    component: AdminLayout,
+    children: [
+      {
+        path: '',
+        name: 'adminHome',
+        component: AdminHome
+      }
+    ]
+  },
+  {
     path: '/',
     name: 'home',
     component: Home
-  },
-  {
-    path: '/adminHome',
-    name: 'adminHome',
-    component: AdminHome
   }
 ]
 
@@ -31,10 +38,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login') return next()
-  if (to.path === '/') return next()
   // TODO 查询页面
-  if (to.path === '/adminHome') {
+  if (to.path.substring(0, 10) === '/adminHome') {
     if (from.path === '/login') next()
     adminLoginInfo().then(res => {
       if (res.data.code === '00000') return next()
@@ -43,6 +48,7 @@ router.beforeEach((to, from, next) => {
       console.log(error)
     })
   }
+  return next()
 })
 
 export default router
