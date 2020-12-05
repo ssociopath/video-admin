@@ -76,6 +76,7 @@ export default {
     background-color: #d3dce6;
     .aside-menu{
       height: 100%;
+      width: 100%;
       padding-right: 15px;
     }
     .el-menu-item{
