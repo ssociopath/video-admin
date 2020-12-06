@@ -16,7 +16,7 @@
       <i class="iconfont iconicon-test"></i>
       <span slot="title">录像管理</span>
     </el-menu-item>
-    <el-menu-item index="/adminHome/user">
+    <el-menu-item index="/adminHome/member">
       <i class="iconfont iconuser-group"></i>
       <span slot="title">用户管理</span>
     </el-menu-item>
