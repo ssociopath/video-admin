@@ -8,10 +8,10 @@ export const getMembers = () => {
   })
 }
 
-export const setMember = datas => {
+export const editMember = datas => {
   return request({
     method: 'POST',
-    url: '/member/set',
+    url: '/member/update',
     data: qs.stringify(datas)
   })
 }
