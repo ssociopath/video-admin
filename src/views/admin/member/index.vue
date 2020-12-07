@@ -152,6 +152,8 @@ export default {
       deleteMember({ id: row.phone }).then(res => {
         if (res.data.code === '00000') {
           this.$message.success(res.data.message)
+          console.log(index)
+          this.members.splice(index, 1)
         } else {
           this.$message.error(res.data.message)
         }
@@ -170,8 +172,13 @@ export default {
           addMember(this.member).then(res => {
             if (res.data.code === '00000') {
               this.$message.success(res.data.message)
-            } else {
+              this.members.push({
+                name: this.member.memberName,
+                phone: this.member.phone,
+                dateRegister: this.member.dateRegister
+              })
               this.dialogFormVisible = false
+            } else {
               this.$message.error(res.data.message)
             }
           })
