@@ -23,7 +23,7 @@ export default {
   props: ['delete-dialog-visible', 'item-chosen'],
   methods: {
     handleDelete () {
-      deleteMember({ id: this.itemChosen.phone }).then(res => {
+      deleteMember({ id: this.itemChosen.memberId }).then(res => {
         if (res.data.code === '00000') {
           this.$message.success(res.data.message)
           this.$emit('delete-members-change')

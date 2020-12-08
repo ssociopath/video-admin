@@ -69,7 +69,7 @@ export default {
     handleEditMember (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          editMember({ id: this.itemChosen.phone, memberId: this.member.memberId, memberName: this.member.memberName, memberPwd: this.member.memberPwd, dateRegister: this.member.dateRegister }).then(res => {
+          editMember({ id: this.itemChosen.memberId, memberId: this.member.memberId, memberName: this.member.memberName, memberPwd: this.member.memberPwd, dateRegister: this.member.dateRegister }).then(res => {
             if (res.data.code === '00000') {
               this.$message.success(res.data.message)
               this.$emit('edit-members-change', this.member)

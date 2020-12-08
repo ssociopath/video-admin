@@ -22,8 +22,8 @@
             v-on:change-add-visible="addDialogVisible = false"
             v-on:add-members-change=" member => {
                 members.push({
-                name: member.memberName,
-                phone: member.memberId,
+                memberName: member.memberName,
+                memberId: member.memberId,
                 dateRegister: member.dateRegister
               })}"/>
         </div>
@@ -35,18 +35,18 @@
       </div>
       <el-table
           :data="members.filter(data => !search ||
-                                data.name.toLowerCase().includes(search.toLowerCase()) ||
-                                data.phone.toLowerCase().includes(search.toLowerCase()))"
+                                data.memberName.toLowerCase().includes(search.toLowerCase()) ||
+                                data.memberId.toLowerCase().includes(search.toLowerCase()))"
           height="500"
           border
           style="font-size:20px; box-shadow:0 0 5px 1px rgba(0, 0, 0, 0.3);">
           <el-table-column
-            prop="name"
+            prop="memberName"
             label="姓名"
             width="200">
           </el-table-column>
           <el-table-column
-            prop="phone"
+            prop="memberId"
             label="手机号"
             width="200">
           </el-table-column>
@@ -73,8 +73,8 @@
                   v-on:change-edit-visible="editDialogVisible = false"
                   v-on:edit-members-change="member => {
                     members.splice(itemIndex, 1, {
-                      name: member.memberName,
-                      phone: member.memberId,
+                      memberName: member.memberName,
+                      memberId: member.memberId,
                       dateRegister: member.dateRegister
                     })}"/>
               <el-button

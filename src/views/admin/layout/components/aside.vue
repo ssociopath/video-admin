@@ -1,7 +1,7 @@
 <template>
   <el-menu
     class="nav-menu"
-    default-active="/adminHome"
+    :default-active='$router.currentRoute.path'
     background-color="#545c64"
     text-color="#fff"
     active-text-color="#ffd04b"
