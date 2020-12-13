@@ -27,7 +27,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button v-on:click="$emit('change-add-visible'), resetForm('member')">取 消</el-button>
+      <el-button v-on:click="$emit('add-change'), resetForm('member')">取 消</el-button>
       <el-button type="primary" @click="handleAddMember('member')">确 定</el-button>
     </div>
   </el-dialog>
@@ -72,8 +72,7 @@ export default {
           addMember(this.member).then(res => {
             if (res.data.code === '00000') {
               this.$message.success(res.data.message)
-              this.$emit('add-members-change', this.member)
-              this.$emit('change-add-visible')
+              this.$emit('add-change')
               this.resetForm(formName)
             } else {
               this.$message.error(res.data.message)

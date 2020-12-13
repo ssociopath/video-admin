@@ -8,22 +8,13 @@
             size="mini"
             type="primary"
             style="font-size:20px; margin-left:20px"
-            @click="addDialogVisible=true">添加新录像</el-button>
-          <add-dialog
-            :add-dialog-visible="addDialogVisible"
-            v-on:change-add-visible="addDialogVisible = false"
-            v-on:add-members-change=" member => {
-                members.push({
-                name: member.memberName,
-                phone: member.memberId,
-                dateRegister: member.dateRegister
-              })}"/>
+            @click="addDialogVisible=true, isVideo=true">添加新录像</el-button>
         </div>
         <el-input
           v-model="searchVideo"
           size="large"
           style="width: 300px; font-size:20px"
-          placeholder="输入录像ID或录像名搜索"/>
+          placeholder="输入录像id或录像名搜索"/>
       </div>
       <el-table
           :data="videos.filter(data => !searchVideo ||
@@ -67,29 +58,16 @@
                 style="font-size:20px"
                 @click="itemChosen=scope.row,
                         itemIndex=scope.$index,
-                        editDialogVisible=true">编辑</el-button>
-                <edit-dialog
-                  :item-chosen="itemChosen"
-                  :edit-dialog-visible="editDialogVisible"
-                  v-on:change-edit-visible="editDialogVisible = false"
-                  v-on:edit-members-change="member => {
-                    members.splice(itemIndex, 1, {
-                      name: member.memberName,
-                      phone: member.memberId,
-                      dateRegister: member.dateRegister
-                    })}"/>
+                        editDialogVisible=true,
+                        isVideo=true">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
                 style="font-size:20px; margin-left:10px"
                 @click="itemChosen=scope.row,
                         itemIndex=scope.$index,
-                        deleteDialogVisible=true">删除</el-button>
-                <delete-dialog
-                  :item-chosen="itemChosen"
-                  :delete-dialog-visible="deleteDialogVisible"
-                  v-on:change-delete-visible="deleteDialogVisible = false"
-                  v-on:delete-members-change="members.splice(itemIndex, 1)"/>
+                        deleteDialogVisible=true,
+                        isVideo=true">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -102,22 +80,13 @@
             size="mini"
             type="primary"
             style="font-size:20px; margin-left:20px"
-            @click="addDialogVisible=true">添加新拷贝</el-button>
-          <add-dialog
-            :add-dialog-visible="addDialogVisible"
-            v-on:change-add-visible="addDialogVisible = false"
-            v-on:add-members-change=" member => {
-                members.push({
-                name: member.memberName,
-                phone: member.memberId,
-                dateRegister: member.dateRegister
-              })}"/>
+            @click="addDialogVisible=true, isVideo=false">添加新拷贝</el-button>
         </div>
         <el-input
           v-model="searchCopy"
           size="large"
           style="width: 300px; font-size:20px"
-          placeholder="输入姓名或手机号搜索"/>
+          placeholder="输入录像id或拷贝id搜索"/>
       </div>
       <el-table
           :data="copies.filter(data => !searchCopy ||
@@ -160,44 +129,45 @@
                 style="font-size:20px"
                 @click="itemChosen=scope.row,
                         itemIndex=scope.$index,
-                        editDialogVisible=true">编辑</el-button>
-                <edit-dialog
-                  :item-chosen="itemChosen"
-                  :edit-dialog-visible="editDialogVisible"
-                  v-on:change-edit-visible="editDialogVisible = false"
-                  v-on:edit-members-change="member => {
-                    members.splice(itemIndex, 1, {
-                      name: member.memberName,
-                      phone: member.memberId,
-                      dateRegister: member.dateRegister
-                    })}"/>
+                        editDialogVisible=true,
+                        isVideo=false">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
                 style="font-size:20px; margin-left:10px"
                 @click="itemChosen=scope.row,
                         itemIndex=scope.$index,
-                        deleteDialogVisible=true">删除</el-button>
-                <delete-dialog
-                  :item-chosen="itemChosen"
-                  :delete-dialog-visible="deleteDialogVisible"
-                  v-on:change-delete-visible="deleteDialogVisible = false"
-                  v-on:delete-members-change="members.splice(itemIndex, 1)"/>
+                        deleteDialogVisible=true,
+                        isVideo=false">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
     </el-card>
+    <delete-dialog
+      :item-chosen="itemChosen"
+      :delete-dialog-visible="deleteDialogVisible"
+      :is-video="isVideo"
+      v-on:delete-change="() => {this.loadVideos(), this.loadCopies(), this.deleteDialogVisible=false}"/>
+    <add-dialog
+      :add-dialog-visible="addDialogVisible"
+      :is-video="isVideo"
+      v-on:add-change="() => {this.loadVideos(), this.loadCopies(), this.addDialogVisible=false}"/>
+    <edit-dialog
+      :item-chosen="itemChosen"
+      :edit-dialog-visible="editDialogVisible"
+      :is-video="isVideo"
+      v-on:edit-change="() => {this.loadCopies(), this.loadVideos(), editDialogVisible = false}"/>
   </div>
 </template>
 
 <script>
 import { getVideos, getCopies } from '@/api/video.js'
-import AddDialog from '@/views/admin/member/components/add.vue'
-import DeleteDialog from '@/views/admin/member/components/delete.vue'
-import EditDialog from '@/views/admin/member/components/edit.vue'
+import AddDialog from '@/views/admin/video/components/add.vue'
+import DeleteDialog from '@/views/admin/video/components/delete.vue'
+import EditDialog from '@/views/admin/video/components/edit.vue'
 
 export default {
-  name: 'MemberIndex',
+  name: 'VideoIndex',
   data () {
     return {
       copies: [],
@@ -208,7 +178,8 @@ export default {
       deleteDialogVisible: false,
       editDialogVisible: false,
       itemChosen: {},
-      itemIndex: ''
+      itemIndex: '',
+      isVideo: false
     }
   },
   components: {
@@ -223,13 +194,11 @@ export default {
   methods: {
     loadVideos () {
       getVideos().then(res => {
-        console.log(res.data.data)
         this.videos = res.data.data
       })
     },
     loadCopies () {
       getCopies().then(res => {
-        console.log(res.data.data)
         this.copies = res.data.data
       })
     },

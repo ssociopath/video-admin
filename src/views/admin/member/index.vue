@@ -2,14 +2,6 @@
   <div class="user-container">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>用户概况</span>
-      </div>
-      <div v-for="o in 4" :key="o" class="text item">
-        {{'列表内容 ' + o }}
-      </div>
-    </el-card>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
         <div>
           <span>用户列表</span>
           <el-button
@@ -17,15 +9,6 @@
             type="primary"
             style="font-size:20px; margin-left:20px"
             @click="addDialogVisible=true">添加新会员</el-button>
-          <add-dialog
-            :add-dialog-visible="addDialogVisible"
-            v-on:change-add-visible="addDialogVisible = false"
-            v-on:add-members-change=" member => {
-                members.push({
-                memberName: member.memberName,
-                memberId: member.memberId,
-                dateRegister: member.dateRegister
-              })}"/>
         </div>
         <el-input
           v-model="search"
@@ -67,16 +50,6 @@
                 @click="itemChosen=scope.row,
                         itemIndex=scope.$index,
                         editDialogVisible=true">编辑</el-button>
-                <edit-dialog
-                  :item-chosen="itemChosen"
-                  :edit-dialog-visible="editDialogVisible"
-                  v-on:change-edit-visible="editDialogVisible = false"
-                  v-on:edit-members-change="member => {
-                    members.splice(itemIndex, 1, {
-                      memberName: member.memberName,
-                      memberId: member.memberId,
-                      dateRegister: member.dateRegister
-                    })}"/>
               <el-button
                 size="mini"
                 type="danger"
@@ -84,16 +57,22 @@
                 @click="itemChosen=scope.row,
                         itemIndex=scope.$index,
                         deleteDialogVisible=true">删除</el-button>
-                <delete-dialog
-                  :item-chosen="itemChosen"
-                  :delete-dialog-visible="deleteDialogVisible"
-                  v-on:change-delete-visible="deleteDialogVisible = false"
-                  v-on:delete-members-change="members.splice(itemIndex, 1)"/>
+
             </template>
           </el-table-column>
         </el-table>
-
     </el-card>
+      <add-dialog
+          :add-dialog-visible="addDialogVisible"
+          v-on:add-change=" () => {this.loadMembers(), addDialogVisible = false}"/>
+      <edit-dialog
+        :item-chosen="itemChosen"
+        :edit-dialog-visible="editDialogVisible"
+        v-on:edit-change="() => {this.loadMembers(), editDialogVisible = false}"/>
+      <delete-dialog
+        :item-chosen="itemChosen"
+        :delete-dialog-visible="deleteDialogVisible"
+        v-on:delete-change="() => {this.loadMembers(), deleteDialogVisible = false}"/>
   </div>
 </template>
 

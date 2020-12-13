@@ -10,13 +10,13 @@
       ref="member"
       >
       <el-form-item label="会员手机号" prop="memberId">
-        <el-input v-model="member.memberId"></el-input>
+        <el-input v-model="member.memberId" :placeholder="itemChosen.memberId"></el-input>
       </el-form-item>
       <el-form-item label="会员密码" prop="memberPwd">
         <el-input v-model="member.memberPwd"></el-input>
       </el-form-item>
       <el-form-item label="会员姓名" prop="memberName">
-        <el-input v-model="member.memberName"></el-input>
+        <el-input v-model="member.memberName" :placeholder="itemChosen.memberName"></el-input>
       </el-form-item>
       <el-form-item label="会员注册时间" prop="dateRegister">
         <el-date-picker type="datetime"
@@ -27,7 +27,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button v-on:click="$emit('change-edit-visible'), resetForm('member')">取 消</el-button>
+      <el-button v-on:click="$emit('edit-change'), resetForm('member')">取 消</el-button>
       <el-button type="primary" @click="handleEditMember('member')">确 定</el-button>
     </div>
   </el-dialog>
@@ -72,8 +72,7 @@ export default {
           editMember({ id: this.itemChosen.memberId, memberId: this.member.memberId, memberName: this.member.memberName, memberPwd: this.member.memberPwd, dateRegister: this.member.dateRegister }).then(res => {
             if (res.data.code === '00000') {
               this.$message.success(res.data.message)
-              this.$emit('edit-members-change', this.member)
-              this.$emit('change-edit-visible')
+              this.$emit('edit-change', this.member)
               this.resetForm(formName)
             } else {
               this.$message.error(res.data.message)
