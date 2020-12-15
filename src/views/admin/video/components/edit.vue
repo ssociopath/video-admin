@@ -4,12 +4,12 @@
     :visible="editDialogVisible && isVideo"
     :append-to-body="true"
     :show-close="false"
-    width="500px" >
+    width="400px" >
     <el-form
       :model="video"
       :rules="videoRules"
       ref="video"
-      >
+      label-width="80px">
       <el-form-item label="录像id" prop="videoId">
         <el-input v-model="video.videoId" :placeholder="itemChosen.videoId" :disabled="true"></el-input>
       </el-form-item>
@@ -35,12 +35,12 @@
     :visible="editDialogVisible && !isVideo"
     :append-to-body="true"
     :show-close="false"
-    width="500px" >
+    width="400px" >
     <el-form
       :model="copyVO"
       :rules="copyRules"
       ref="copyVO"
-      >
+      label-width="80px">
       <el-form-item label="录像id" prop="videoId">
         <el-input v-model="copyVO.videoId" :placeholder="itemChosen.videoId" :disabled="true"></el-input>
       </el-form-item>

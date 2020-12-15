@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { deleteMember } from '@/api/member.js'
+import { deleteRent } from '@/api/rent.js'
 export default {
   name: 'DeleteDialog',
   data () {
@@ -23,7 +23,7 @@ export default {
   props: ['delete-dialog-visible', 'item-chosen'],
   methods: {
     handleDelete () {
-      deleteMember({ id: this.itemChosen.memberId }).then(res => {
+      deleteRent({ id: this.itemChosen.rentId }).then(res => {
         if (res.data.code === '00000') {
           this.$message.success(res.data.message)
           this.$emit('delete-change')

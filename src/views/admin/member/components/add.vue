@@ -3,12 +3,12 @@
     :visible.sync="addDialogVisible"
     :append-to-body="true"
     :show-close="false"
-    width="500px" >
+    width="400px" >
     <el-form
       :model="member"
       :rules="rules"
       ref="member"
-      >
+      label-width="120px">
       <el-form-item label="会员手机号" prop="memberId">
         <el-input v-model="member.memberId"></el-input>
       </el-form-item>

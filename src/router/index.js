@@ -8,6 +8,7 @@ import AdminHome from '@/views/admin/home/index.vue'
 import AdminLayout from '@/views/admin/layout/index.vue'
 import AdminMember from '@/views/admin/member/index.vue'
 import AdminVideo from '@/views/admin/video/index.vue'
+import AdminRent from '@/views/admin/rent/index.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [
         path: '/adminHome/video',
         name: 'adminVideo',
         component: AdminVideo
+      },
+      {
+        path: '/adminHome/rent',
+        name: 'adminRent',
+        component: AdminRent
       }
     ]
   },

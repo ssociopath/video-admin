@@ -4,12 +4,12 @@
     :visible="addDialogVisible && isVideo"
     :append-to-body="true"
     :show-close="false"
-    width="500px" >
+    width="400px">
     <el-form
       :model="video"
       :rules="videoRules"
       ref="video"
-      >
+      label-width="80px">
       <el-form-item label="录像ID" prop="videoId">
         <el-input v-model="video.videoId"></el-input>
       </el-form-item>
@@ -35,14 +35,21 @@
     :visible="addDialogVisible && !isVideo"
     :append-to-body="true"
     :show-close="false"
-    width="500px" >
+    width="400px">
     <el-form
       :model="copyVO"
       :rules="copyRules"
       ref="copyVO"
-      >
+      label-width="80px">
       <el-form-item label="录像ID" prop="videoId">
-        <el-input v-model="copyVO.videoId"></el-input>
+        <el-select v-model="copyVO.videoId" placeholder="请选择录像id">
+          <el-option
+            v-for="item in copyOptions"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="拷贝Id" prop="copyId">
         <el-input v-model="copyVO.copyId"></el-input>
@@ -61,6 +68,7 @@
 
 <script>
 import { addVideo, addCopy } from '@/api/video.js'
+import { getVideoId } from '@/api/id'
 export default {
   name: 'AddDialog',
   data () {
@@ -79,8 +87,8 @@ export default {
       },
       videoRules: {
         videoId: [
-          { required: true, message: '请输入录像Id', trigger: 'blur' },
-          { min: 5, max: 5, message: '录像Id长度为5位', trigger: 'blur' }
+          { required: true, message: '请输入录像id', trigger: 'blur' },
+          { min: 5, max: 5, message: '录像id长度为5位', trigger: 'blur' }
         ],
         videoName: [
           { required: true, message: '请输入录像名', trigger: 'blur' },
@@ -97,17 +105,20 @@ export default {
       },
       copyRules: {
         videoId: [
-          { required: true, message: '请输入录像Id', trigger: 'blur' },
-          { min: 5, max: 5, message: '录像Id长度为5位', trigger: 'blur' }
+          { required: true, message: '请选择录像id', trigger: 'blur' }
         ],
         copyId: [
-          { required: true, message: '请输入拷贝Id', trigger: 'blur' },
-          { pattern: /^[1-9]\d{0,2}$/, message: '拷贝Id范围为[1,999]', trigger: 'blur' }
+          { required: true, message: '请输入拷贝id', trigger: 'blur' },
+          { pattern: /^[1-9]\d{0,2}$/, message: '拷贝id范围为[1,999]', trigger: 'blur' }
         ]
-      }
+      },
+      copyOptions: []
     }
   },
   props: ['add-dialog-visible', 'is-video'],
+  created () {
+    this.getId()
+  },
   methods: {
     handleAdd (formName) {
       if (this.isVideo) {
@@ -136,11 +147,22 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    getId () {
+      getVideoId().then(res => {
+        for (const item of res.data.data) {
+          this.copyOptions.push(item)
+        }
+      }).catch(error => {
+        console.log(error.message)
+      })
     }
   }
 }
 </script>
 
 <style>
-
+.dialog-footer{
+  text-align: center;
+}
 </style>
