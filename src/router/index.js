@@ -3,12 +3,16 @@ import VueRouter from 'vue-router'
 import { adminLoginInfo } from '@/api/user'
 
 import Login from '@/views/login/login.vue'
-import Home from '@/views/home/index.vue'
 import AdminHome from '@/views/admin/home/index.vue'
 import AdminLayout from '@/views/admin/layout/index.vue'
 import AdminMember from '@/views/admin/member/index.vue'
 import AdminVideo from '@/views/admin/video/index.vue'
 import AdminRent from '@/views/admin/rent/index.vue'
+import AdminBill from '@/views/admin/bill/index.vue'
+import UserLayout from '@/views/user/layout/index.vue'
+import RentCenter from '../views/user/rent/index.vue'
+import ReturnCenter from '../views/user/return/index.vue'
+import PersonalCenter from '@/views/user/personal/index.vue'
 
 Vue.use(VueRouter)
 
@@ -41,13 +45,35 @@ const routes = [
         path: '/adminHome/rent',
         name: 'adminRent',
         component: AdminRent
+      },
+      {
+        path: '/adminHome/bill',
+        name: 'adminRent',
+        component: AdminBill
       }
     ]
   },
   {
-    path: '/',
+    path: '/rent',
     name: 'home',
-    component: Home
+    component: UserLayout,
+    children: [
+      {
+        path: '',
+        name: 'rentCenter',
+        component: RentCenter
+      },
+      {
+        path: '/return',
+        name: 'returnCenter',
+        component: ReturnCenter
+      },
+      {
+        path: '/personal',
+        name: 'personalCenter',
+        component: PersonalCenter
+      }
+    ]
   }
 ]
 

@@ -63,7 +63,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .layout-container{
     position: fixed;
     left: 0;
@@ -73,15 +73,8 @@ export default {
 }
 
 .aside{
-    background-color: #d3dce6;
-    .aside-menu{
-      height: 100%;
-      width: 100%;
-      padding-right: 15px;
-    }
-    .el-menu-item{
-      font-size: 20px;
-    }
+    background-color: #545c64;
+    width: 100%;
 }
 .header{
     height: 60px;

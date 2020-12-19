@@ -1,16 +1,16 @@
 <template>
-  <a>首页</a>
+  <a>个人中心</a>
 </template>
 
 <script>
-
 export default {
-  name: 'HomeIndex',
+  name: 'UserIndex',
   data () {
     return {}
   }
 }
 </script>
 
-<style>
+<style scoped>
+
 </style>

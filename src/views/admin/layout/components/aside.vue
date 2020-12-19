@@ -47,10 +47,22 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 .nav-menu .iconfont{
   margin-right: 10px;
   padding-left: 5px;
   font-size: 20px;
+}
+
+.nav-menu{
+  padding-top: 30px;
+  .aside-menu{
+    height: 100%;
+    width: 100%;
+    padding-right: 20px;
+  }
+  .el-menu-item{
+    font-size: 20px;
+  }
 }
 </style>

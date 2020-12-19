@@ -21,8 +21,14 @@
                 >
             </el-input>
         </el-form-item>
+        <el-form-item>
+          <template>
+            <el-radio v-model="role" label="1">会员</el-radio>
+            <el-radio v-model="role" label="2">管理员</el-radio>
+          </template>
+        </el-form-item>
         <el-form-item class="login-btn">
-            <el-button type="primary" @click="onLogin" :loading="loginLoding">登录</el-button>
+            <el-button type="primary" @click="onLogin" :loading="loginLoading">登录</el-button>
         </el-form-item>
         <el-form-item class="login-foot">
             <span>WHUT - 计算机1803 - 李彦佳 2020-2021</span>
@@ -34,6 +40,7 @@
 
 <script>
 import { adminLogin } from '@/api/user.js'
+import { memberLogin } from '@/api/member.js'
 
 export default {
   name: 'LoginIndex',
@@ -43,25 +50,29 @@ export default {
         id: '',
         pwd: ''
       },
-      loginLoding: false
+      role: '',
+      loginLoading: false
     }
   },
   methods: {
     onLogin () {
-      this.loginLoding = true
-      adminLogin(this.user).then(res => {
+      this.Login(this.role === '1' ? memberLogin : adminLogin, this.role === '1' ? '/rent' : '/adminHome')
+    },
+    Login (userLogin, addr) {
+      this.loginLoading = true
+      userLogin(this.user).then(res => {
         console.log(res)
         if (res.data.code === '00000') {
           this.$message.success(res.data.message)
           window.sessionStorage.setItem('token', res.data.data)
-          this.$router.push('/adminHome')
+          this.$router.push(addr)
         } else {
           this.$message.error(res.data.message)
+          this.loginLoading = false
         }
       }).catch(error => {
         this.$message.error(error.message)
       })
-      this.loginLoding = false
     }
   }
 }
@@ -166,5 +177,30 @@ export default {
         font-size: 20px;
         color: rgb(100, 100, 100);
     }
+}
+
+span.el-radio__label{
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(100, 100, 100);
+}
+
+div.el-form-item__content{
+  text-align: center;
+}
+
+span.el-radio__inner{
+  box-shadow: inset 0 0 5px 1px rgba(0, 0, 0, 0.7);
+  background-color: rgba(255, 255, 255, 0.1);
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(100, 100, 100);
+}
+
+span.el-radio__input.is-checked+.el-radio__label{
+  color: rgba(200, 200, 200, 0.7);
+}
+span.el-radio__input.is-checked.el-radio__inner{
+  background: rgba(200, 200, 200, 0.7);
 }
 </style>
