@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { getBill } from '@/api/bill.js'
+import { getBills } from '@/api/bill.js'
 import AddDialog from '@/views/admin/rent/components/add.vue'
 import DeleteDialog from '@/views/admin/rent/components/delete.vue'
 
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     loadBills () {
-      getBill().then(res => {
+      getBills().then(res => {
         console.log(res.data.data)
         this.rents = res.data.data
       })

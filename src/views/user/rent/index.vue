@@ -49,47 +49,60 @@
                 @click="itemChosen=scope.row
                         itemIndex=scope.$index
                         getCopyId(itemChosen.videoId)
-                        copyDialogVisible=true">租借</el-button>
+                        rentDialogVisible=true">租借</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-card>
     </div>
-    <copy-dialog
-      :copy-dialog-visible="copyDialogVisible"
+    <rent-dialog
+      :rent-dialog-visible="rentDialogVisible"
       :item-chosen="itemChosen"
       :copy-options="copyOptions"
-      :user= "user"
-      v-on:copy-change="copyDialogVisible = false"/>
+      :member= "member"
+      v-on:rent-change="loadVideos(); rentDialogVisible = false"/>
   </div>
 </template>
 
 <script>
 import { getCopies, getVideos } from '@/api/video'
-import CopyDialog from './components/copy'
-import { getCopyId } from '@/api/id'
+import RentDialog from './components/rent'
+import { getAvailableCopyId } from '@/api/id'
+import { memberLoginInfo } from '@/api/member'
 
 export default {
-  name: 'RentIndex',
+  name: 'RentCenterIndex',
   data () {
     return {
+      member: {},
       videos: [],
       searchVideo: '',
-      copyDialogVisible: false,
+      rentDialogVisible: false,
       itemChosen: {},
       itemIndex: '',
       copyOptions: []
     }
   },
   components: {
-    CopyDialog
+    RentDialog
   },
-  props: ['user'],
   created () {
+    this.loadUserProfile()
     this.loadVideos()
     this.loadCopies()
   },
   methods: {
+    loadUserProfile () {
+      memberLoginInfo().then(res => {
+        if (res.data.code === '00000') {
+          this.member = res.data.data
+        } else {
+          this.$message.error(res.data.message)
+        }
+      }).catch(error => {
+        this.$message.error(error.message)
+      })
+    },
     loadVideos () {
       getVideos().then(res => {
         this.videos = res.data.data
@@ -101,7 +114,7 @@ export default {
       })
     },
     getCopyId (videoId) {
-      getCopyId({ id: videoId }).then(res => {
+      getAvailableCopyId({ id: videoId }).then(res => {
         this.copyOptions = res.data.data
       }).catch(error => {
         console.log(error.message)
@@ -155,5 +168,9 @@ tr.el-table__row{
 div .el-table .cell{
   height: 40px;
   line-height: 40px;
+}
+
+span .el-tag{
+  font-size: 25px;
 }
 </style>

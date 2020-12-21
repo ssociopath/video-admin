@@ -8,6 +8,14 @@ export const getVideos = () => {
   })
 }
 
+export const getVideoById = datas => {
+  return request({
+    method: 'POST',
+    url: '/video/findById',
+    data: qs.stringify(datas)
+  })
+}
+
 export const editVideo = datas => {
   return request({
     method: 'POST',

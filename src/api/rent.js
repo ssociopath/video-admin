@@ -8,6 +8,14 @@ export const getRent = () => {
   })
 }
 
+export const getRentByMember = datas => {
+  return request({
+    method: 'POST',
+    url: '/rent/findByMember',
+    data: qs.stringify(datas)
+  })
+}
+
 export const editRent = datas => {
   return request({
     method: 'POST',

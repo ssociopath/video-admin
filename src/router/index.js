@@ -12,7 +12,7 @@ import AdminBill from '@/views/admin/bill/index.vue'
 import UserLayout from '@/views/user/layout/index.vue'
 import RentCenter from '../views/user/rent/index.vue'
 import ReturnCenter from '../views/user/return/index.vue'
-import PersonalCenter from '@/views/user/personal/index.vue'
+import PayCenter from '@/views/user/pay/index.vue'
 
 Vue.use(VueRouter)
 
@@ -69,9 +69,9 @@ const routes = [
         component: ReturnCenter
       },
       {
-        path: '/personal',
-        name: 'personalCenter',
-        component: PersonalCenter
+        path: '/pay',
+        name: 'payCenter',
+        component: PayCenter
       }
     ]
   }

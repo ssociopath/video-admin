@@ -12,18 +12,18 @@
         router>
         <el-menu-item index="/rent">租借中心</el-menu-item>
         <el-menu-item index="/return">归还中心</el-menu-item>
-        <el-menu-item index="/personal">个人中心</el-menu-item>
+        <el-menu-item index="/pay">结算中心</el-menu-item>
       </el-menu>
       <el-dropdown class="el-dropdown-link">
-          <span>{{user !== null ? '会员：'+user.memberName : '未登录'}}</span>
+          <span>{{isLogin? '会员：'+member.memberName : '未登录'}}</span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>{{user !== null ? '个人中心' : '注册'}}</el-dropdown-item>
-          <el-dropdown-item @click.native="turnToLogin()">{{user !== null ? '退出登录' : '登录'}}</el-dropdown-item>
+          <el-dropdown-item>{{isLogin? '个人中心' : '注册'}}</el-dropdown-item>
+          <el-dropdown-item @click.native="turnToLogin()">{{isLogin? '退出登录' : '登录' }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
     <el-main class="main">
-      <router-view :user="user"/>
+      <router-view/>
     </el-main>
   </el-container>
 </template>
@@ -35,7 +35,8 @@ export default {
   name: 'HomeIndex',
   data () {
     return {
-      user: {}
+      member: {},
+      isLogin: false
     }
   },
   created () {
@@ -43,15 +44,18 @@ export default {
   },
   methods: {
     loadUserProfile () {
+      this.isLogin = false
       memberLoginInfo().then(res => {
-        console.log(res)
-        this.user = res.data.data
-        this.$emit('member-login', this.user)
-        console.log(this.user)
+        if (res.data.code === '00000') {
+          this.member = res.data.data
+          this.isLogin = true
+        }
+      }).catch(error => {
+        this.$message.error(error.message)
       })
     },
     turnToLogin () {
-      if (this.user === null) {
+      if (!this.isLogin) {
         this.$router.push('/login')
       }
     }

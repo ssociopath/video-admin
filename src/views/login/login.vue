@@ -68,11 +68,11 @@ export default {
           this.$router.push(addr)
         } else {
           this.$message.error(res.data.message)
-          this.loginLoading = false
         }
       }).catch(error => {
         this.$message.error(error.message)
       })
+      this.loginLoading = false
     }
   }
 }

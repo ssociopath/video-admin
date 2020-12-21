@@ -16,6 +16,14 @@ export const getCopyId = datas => {
   })
 }
 
+export const getAvailableCopyId = datas => {
+  return request({
+    method: 'POST',
+    url: '/copy/available/ids',
+    data: qs.stringify(datas)
+  })
+}
+
 export const getMemberId = () => {
   return request({
     method: 'GET',
